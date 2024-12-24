@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cây nhà Lá vườn</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f4f7f6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        header {
+            background: linear-gradient(90deg, #108e5b,rgb(12, 18, 32));
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        header .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .search-bar {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            margin: 0 1rem;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 50px;
+            background: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar input:focus {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-bar button {
+            position: absolute;
+            right: 10px;
+            padding: 0.5rem;
+            background: #34a853;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .search-bar button:hover {
+            background: #2c8b43;
+        }
+
+        header nav {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        header nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        header nav a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        header nav div img:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        header nav div span:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        header .cart {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        header .cart img {
+            width: 24px;
+            height: 24px;
+        }
+
+        header .cart span {
+            font-size: 1rem;
+            background-color: #ffffff;
+            color: #34a853;
+            padding: 6px 12px;
+            border-radius: 50%;
+            font-weight: bold;
+        }
+
+        .hero {
+            background-image: url('https://images.wallpaperscraft.com/image/single/japanese_garden_stones_balance_1266689_1600x900.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #f5f2f0;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            letter-spacing: 2px;
+            animation: fadeIn 1.5s ease;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin: 1rem 0;
+            animation: fadeIn 2s ease;
+        }
+
+        .hero button {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            background-color: #2e066e;
+            border: none;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .hero button:hover {
+            background-color: #d60e0e;
+            transform: translateY(-3px);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .features, .categories, .featured-products {
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .features h2, .categories h2, .featured-products h2 {
+            font-size: 2.5rem;
+            color: #27ae60;
+            margin-bottom: 2rem;
+        }
+
+        .features .grid, .categories .grid, .featured-products .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .feature-card, .category, .product-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover, .category:hover, .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-card img, .category img, .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .feature-card h3, .category h3, .product-card h3 {
+            font-size: 1.2rem;
+            color: #27ae60;
+            margin: 1rem 0;
+        }
+
+        .product-card .info {
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .product-card .info .price {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #2ecc71;
+            margin: 1rem 0;
+        }
+
+        .product-card .info button {
+            padding: 0.75rem 2rem;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .product-card .info button:hover {
+            background-color: #2ecc71;
+            transform: translateY(-3px);
+        }
+
+        footer {
+            background: #27ae60;
+            color: white;
+            text-align: center;
+            padding: 3rem 1rem;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        footer a {
+            color: #2ecc71;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.2rem;
+            }
+
+            header .logo {
+                font-size: 1.5rem;
+            }
+
+            .search-bar input, .search-bar button {
+                padding: 0.5rem;
+                font-size: 0.9rem;
+            }
+
+            .product-card .info button {
+                padding: 0.5rem 1.5rem;
+            }
+
+            footer {
+                padding: 2rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Cây nhà Lá vườn</div>
+        <div class="search-bar">
+            <input type="text" placeholder="Tìm kiếm sản phẩm...">
+            <button>Tìm kiếm</button>
+        </div>
+        <nav>
+            <a href="{% url 'index' %}">Trang chủ</a>
+            <a href="#">Sản phẩm</a>
+            <a href="#">Danh mục</a>
+            <a href="login.html">Đăng nhập</a>
+            <a href="signup.html">Đăng ký</a>
+            <div class="cart" id="cart">
+                <img src="https://img.icons8.com/material-outlined/24/ffffff/shopping-cart--v1.png" alt="Cart" title="Giỏ hàng">
+                <span id="cart-count" title="Giỏ hàng">0</span>
+            </div>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <h1>Nơi hội tụ sắc màu thiên nhiên</h1>
+        <p>Khám phá vẻ đẹp từ thiên nhiên và trải nghiệm mua sắm tuyệt vời</p>
+        <button>Khám phá ngay</button>
+    </div>
+
+    <section class="features">
+        <h2>Dịch vụ của chúng tôi</h2>
+        <div class="grid">
+            <div class="feature-card">
+                <img src="https://catcarry.com/thang5/VANTAICONMEO/upload/images/dich-vu-giao-hang-nhanh-3.png" alt="Delivery">
+                <h3>Giao hàng nhanh</h3>
+                <p>Nhận hàng trong 24 giờ</p>
+            </div>
+            <div class="feature-card">
+                <img src="https://dannygreenbiomarkt.vn/wp-content/uploads/2021/09/613d2d_d5af948d4b1243ad823525bfedefdfda_mv2.webp" alt="Organic">
+                <h3>Sản phẩm hữu cơ</h3>
+                <p>100% sạch và an toàn</p>
+            </div>
+            <div class="feature-card">
+                <img src="https://photo.salekit.com/uploads/fchat_5b4872d13803896dd77125af/chatbot-dich-vu-khach-hang.jpg" alt="Support">
+                <h3>Hỗ trợ 24/7</h3>
+                <p>Luôn sẵn sàng giúp bạn</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="categories">
+        <h2>Danh mục nổi bật</h2>
+        <div class="grid">
+            <div class="category">
+                <img src="https://static.vecteezy.com/system/resources/thumbnails/033/112/973/small/hyper-realistic-tropical-fruits-a-sensory-delight-for-all-ai-generated-photo.jpg" alt="Trái cây">
+                <h3>Trái cây</h3>
+            </div>
+            <div class="category">
+                <img src="https://buildingalifestyle.com/wp-content/uploads/2022/07/LifeStyle-Homes_Home-Garden-300x200.jpeg" alt="Rau củ">
+                <h3>Rau củ</h3>
+            </div>
+            <div class="category">
+                <img src="https://culturephamtravel.com/wp-content/uploads/2022/05/hydrangea-flower-garden-dalat-culture-pham-travel-2-300x200.png" alt="Hoa tươi">
+                <h3>Hoa tươi</h3>
+            </div>
+        </div>
+    </section>
+
+    <section class="featured-products">
+        <h2>Sản phẩm nổi bật</h2>
+        <div class="grid">
+            <div class="product-card">
+                <img src="https://danviet.mediacdn.vn/296231569849192448/2021/7/1/gia-mit-hom-nay-1625114035939860442582.jpg" alt="Trái cây">
+                <div class="info">
+                    <h3>Mít Thái Lan</h3>
+                    <div class="price">100,000 VND</div>
+                    <button>Thêm vào giỏ</button>
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="https://suckhoedoisong.qltns.mediacdn.vn/324455921873985536/2022/1/18/20190425063710470758rauxanhmax-800x8001-164247973908380094864.jpg" alt="Rau củ">
+                <div class="info">
+                    <h3>Rau củ tươi</h3>
+                    <div class="price">50,000 VND</div>
+                    <button>Thêm vào giỏ</button>
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="https://file.hstatic.net/200000398417/file/6604.jpg_wh860_91b22ea536c24e7a8d92f642bdd27258_grande.jpg" alt="Hoa tươi">
+                <div class="info">
+                    <h3>Hoa hồng và rượu vang</h3>
+                    <div class="price">70,000 VND</div>
+                    <button>Thêm vào giỏ</button>
+               
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="https://www.foodsach.com/uploads/images/1396005_701919209837156_947827576_n.jpg" alt="Cá hồi tươi">
+                <div class="info">
+                    <h3>Cá hồi tươi</h3>
+                    <div class="price">200,000 VND</div>
+                    <button>Thêm vào giỏ</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <p>&copy; 2024 Cây nhà Lá vườn. Tất cả quyền được bảo lưu. <a href="#">Chính sách bảo mật</a></p>
+    </footer>
+    
+    <script>
+        const buttons = document.querySelectorAll(".product-card button");
+        const cartCounter = document.createElement("div");
+        let cartCount = 0;
+    
+        buttons.forEach(button => {
+            button.addEventListener("click", () => {
+                cartCount++;
+                updateCartCount();
+            });
+        });
+    
+        function updateCartCount() {
+            const cartElement = document.querySelector(".cart span");
+            if (cartElement) {
+                cartElement.textContent = cartCount;
+            }
+        }
+    </script>
+    </body>
+    </html>
+    
